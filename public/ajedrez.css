@@ -1,0 +1,111 @@
+.cuadrado{
+	width: 50px;
+	height: 50px;
+	color: red;
+}
+
+.blanco{
+	background-color: white;
+}
+
+.negro{
+	background-color: black;
+}
+
+.columna{
+	float: left;
+}
+
+#container {
+	margin-left: auto;
+    margin-right: auto;
+    width: 70%;
+    margin-top: 25%;
+    /*cursor: url("images/blank.cur"), none;*/
+}
+
+.hidden_mouse {
+	cursor: url("images/blank.cur"), none;
+}
+
+#torre{
+
+}
+
+#alfil{
+}
+
+#caballo{
+}
+
+#reina{
+}
+
+.ficha{
+	font-size: 2em;
+	margin-left: auto;
+	margin-right: auto;
+	width: 50%;
+}
+
+.negra{
+	color: #b13537;
+}
+
+
+.blanca{
+	color: #477c82;
+}
+
+.img-ficha {
+	width: 30px;
+	height: 30px;
+}
+
+.torre_cursor{
+	cursor: none;
+	width: 30px;
+	height: 30px;     
+	position: absolute;
+	display: none;
+	top: 0;
+	left: 0;
+	z-index: 10000;
+	background: url("images/torre-negra.png") no-repeat left top;
+}
+
+.alfil_cursor{
+	cursor: none;
+	width: 30px;
+	height: 30px;     
+	position: absolute;
+	display: none;
+	top: 0;
+	left: 0;
+	z-index: 10000;
+	background: url("images/alfil-negro.png") no-repeat left top;
+}
+
+.caballo_cursor{
+	cursor: none;
+	width: 30px;
+	height: 30px;     
+	position: absolute;
+	display: none;
+	top: 0;
+	left: 0;
+	z-index: 10000;
+	background: url("images/caballo-blanco.png") no-repeat left top;
+}
+
+.reina_cursor{
+	cursor: none;
+	width: 30px;
+	height: 30px;     
+	position: absolute;
+	display: none;
+	top: 0;
+	left: 0;
+	z-index: 10000;
+	background: url("images/reina-blanca.png") no-repeat left top;
+}
