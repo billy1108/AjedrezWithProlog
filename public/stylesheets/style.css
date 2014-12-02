@@ -166,13 +166,13 @@ ul {
 
 #ajedrezpart {
   float: left;
-  width: 65%;
+  width: 80%;
   height: 100%;
 }
 
 .chatpart {
   float: left;
-  width: 35%;
+  width: 20%;
   height: 100%;
 }
 

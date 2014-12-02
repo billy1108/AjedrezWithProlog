@@ -20,9 +20,14 @@ $(function() {
   $usernameInput.focus();
   //var $currentInput = $usernameInput.focus();
 
-  var socket = io();
+  socket = io();
 
   initTable();
+
+  function movePiece(){
+    var a = {"a":1,"b":"billy"};
+    socket.emit('play game', a);
+  }
 
 
   // Sets the client's username

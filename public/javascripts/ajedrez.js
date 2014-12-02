@@ -21,6 +21,8 @@ function initTable(){
         if (mouse_status === "true"){
             if (isNoColitionWithFriend(this.id)){
                 changePosition(this);
+                var a = {"a":1,"b":"billy"};
+                socket.emit('play game', a);
                 // consult prolog this postion and validate
                 $(mouse_name_active).hide();
                 $('#container').removeClass();

@@ -4,6 +4,7 @@ var app = express();
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
 var port = process.env.PORT || 3000;
+//var manage_files = require('./managefiles.js'); TODO implementation class (refactoring code)
 
 server.listen(port, function () {
   console.log('Server listening at port %d', port);
@@ -20,6 +21,16 @@ var numUsers = 0;
 
 io.on('connection', function (socket) {
   var addedUser = false;
+
+  socket.on('play game', function(data){
+    console.log(data);
+    /*writeFile(msg);
+    executeProgram();
+    setTimeout( function (){
+      getRespond()
+      },300);*/
+  });
+
 
   // when the client emits 'new message', this listens and executes
   socket.on('new message', function (data) {
@@ -77,3 +88,64 @@ io.on('connection', function (socket) {
     }
   });
 });
+
+// Function manage files 
+function writeFile(msg){
+  var fs = require('fs');
+  fs.writeFile("entrada.txt", "entrada_numero("+msg+")", function(err) {
+      if(err) {
+          console.log(err);
+      } else {
+          console.log("The file was saved!");
+      }
+  }); 
+}
+
+function readFile(){
+  var fs = require('fs');
+  var path = require('path');
+  var filePath = path.join(__dirname, 'salida.txt');
+
+  fs.readFile(filePath, {encoding: 'utf-8'}, function (err,data) {
+    console.log(data);
+      if (err) {
+        return console.log(err);
+      }else{
+      console.log(data);
+      }
+  });
+}
+
+function getRespond(){
+  var a = 1;
+  var fs = require('fs');
+  var path = require('path');
+  var filePath = path.join(__dirname, 'salida.txt');
+
+  fs.readFile(filePath, {encoding: 'utf-8'}, function (err,data) {
+      if (err) {
+        return console.log(err);
+      }else{
+        var mensaje = getDataByPredicate(data);
+        io.emit('response factorial number', mensaje);
+      }
+  });
+}
+
+function getDataByPredicate(data){
+  return data.split("(")[1].split(")")[0];
+}
+
+function executeProgram(){
+  console.log("ejecutar programa")
+  var exec = require('child_process').execFile;
+  var fun =function(){
+     exec('g.exe', function(err, data) {
+          console.log(data.toString());                       
+      });
+      exec('kill.bat', function(err, data) {
+          console.log("close");                       
+      });  
+  }
+  fun();
+}

@@ -1,0 +1,1 @@
+entrada("torre",4,5,"reina",3,5,"caballo",2,3,"B","A","vivo","vivo","vivo","alfil",1,5,1,4)
