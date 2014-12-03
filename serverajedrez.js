@@ -85,7 +85,26 @@ io.on('connection', function (socket) {
       username: socket.username
     });
   });
+  socket.on('move element to all', function(data){
+    console.log(data);
+     socket.broadcast.emit('move piece in table',{
+       piece: data.piece,
+       x: data.x,
+       y: data.y
+    });
+  });
 
+socket.on('dead element to all',function(data){
+   socket.broadcast.emit('dead element in table',{
+     piece: data.piece
+});
+});
+
+socket.on('end game to all',function(data){
+    socket.broadcast.emit('end game in table',{
+     winner: data.winner
+});
+});
   // when the user disconnects.. perform this
   socket.on('disconnect', function () {
     // remove the username from global usernames list
@@ -103,7 +122,7 @@ io.on('connection', function (socket) {
 });
 
 function socketSuccessMotion(socket, data){
-  socket.broadcast.emit('move piece',{
+  socket.emit('move piece',{
     type : data.type4,
     x: data.xf4,
     y: data.yf4
@@ -115,13 +134,13 @@ function socketBadMotion(socket) {
 }
 
 function socketDeadPiece(socket,piece){
-  socket.broadcast.emit('dead piece',{
+  socket.emit('dead piece',{
     type : piece
   });
 }
 
 function socketEndGame(socket,winner){
-  socket.broadcast.emit('end game',{
+  socket.emit('end game',{
     winner : winner
   });
 }

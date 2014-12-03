@@ -262,18 +262,21 @@ $(function() {
   
   socket.on('move piece', function (data) {
     console.log("move piece");
+    socket.emit('move element to all',data);
   });
 
   socket.on('bad motion', function (data) {
-    console.log("bad motion");
+    console.log("bad motion"));
   });
 
   socket.on('dead piece', function (data) {
     console.log("dead piece");
+socket.emit('dead element to all',data);
   });
 
   socket.on('end game', function (data) {
     console.log("end game");
+socket.emit('end game to all',data);
   });
 
 
