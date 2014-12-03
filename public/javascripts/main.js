@@ -271,13 +271,32 @@ $(function() {
 
   socket.on('dead piece', function (data) {
     console.log("dead piece");
-socket.emit('dead element to all',data);
+    socket.emit('dead element to all',data);
   });
 
   socket.on('end game', function (data) {
     console.log("end game");
-socket.emit('end game to all',data);
+    socket.emit('end game to all',data);
+  });
+//////
+  socket.on('move piece in table', function (data) {
+    console.log("move piece in table");
+    moveElementToCoordinates(data);
   });
 
+  socket.on('dead element in table', function (data) {
+    console.log("dead element in table");
+    deleteElementInTable(data);
+  });
+
+  socket.on('end game to all', function (data) {
+    console.log("end game to all");
+    endGame();
+  });
 
 });
+
+function endGame(){
+  alert("END GAME");
+  console.log("end game");
+}

@@ -29,10 +29,10 @@ function initTable(){
                 var data = getObjectToSend(this.id)
                 socket.emit('play game', data);
                 // consult prolog this postion and validate
-                changePosition(this);
+                // changePosition(this);
                 $(mouse_name_active).hide();
-                $('#container').removeClass();
-                desactiveSomeValues();
+                // $('#container').removeClass();
+                // desactiveSomeValues();
             }
         }else{
             cleanSubviewsOfElement(this);
@@ -135,6 +135,7 @@ function setFichasIntoTable(){
 }
 
 function changePosition(element){
+    console.log("changePosition"+element.id);
   switch (mouse_name_active){
     case torre_name_class:
         position_torre = realCoordenadas(element.id);
@@ -180,6 +181,32 @@ function resetLastTurn(){ // when fail the turn
     changePosition(current_position_element)
 }
 
-function moveElementToCoordinates(){// when emit a message from server should move the piece
+function moveElementToCoordinates(data){// when emit a message from server should move the piece
+    var element = { id: data.x + "-" + data.y }
+    changePosition(element)
+    $('#container').removeClass();
+    desactiveSomeValues();
+}
 
+function deleteElementInTable(data){
+    var element_id = data.x + "-" + data.y
+    var element = $("#"+realCoordenadas(element_id))
+    switch (data){
+        case "reina":
+            cleanSubviewsOfElement($("#"+position_torre));
+            reina_status = "muerto";
+            break;
+        case "caballo":
+            cleanSubviewsOfElement($("#"+position_alfil));
+            caballo_status = "muerto";
+            break;
+        case "alfil":
+            cleanSubviewsOfElement($("#"+position_caballo));
+            alfil_status = "muerto";
+            break;
+        case "torre":
+            cleanSubviewsOfElement($("#"+position_reina));
+            torre_status = "muerto";
+            break;
+    }
 }

@@ -85,26 +85,20 @@ io.on('connection', function (socket) {
       username: socket.username
     });
   });
+
   socket.on('move element to all', function(data){
     console.log(data);
-     socket.broadcast.emit('move piece in table',{
-       piece: data.piece,
-       x: data.x,
-       y: data.y
-    });
+     socket.broadcast.emit('move piece in table',data);
   });
 
-socket.on('dead element to all',function(data){
-   socket.broadcast.emit('dead element in table',{
-     piece: data.piece
-});
-});
+  socket.on('dead element to all',function(data){
+     socket.broadcast.emit('dead element in table',data);
+  });
 
-socket.on('end game to all',function(data){
-    socket.broadcast.emit('end game in table',{
-     winner: data.winner
-});
-});
+  socket.on('end game to all',function(data){
+      socket.broadcast.emit('end game in table',data);
+  });
+  
   // when the user disconnects.. perform this
   socket.on('disconnect', function () {
     // remove the username from global usernames list
@@ -155,8 +149,8 @@ function reviewMotion(socket,data_json,data){
     readFile(socket,data_json,entrada_state_muerte,"is_dead");
   }else{
     socketBadMotion(socket);
-    writeFile(entrada_state_muerte,"muerte('null')") // 
-    writeFile(entrada_state_game,"estadojuego('null')")
+    writeFile(entrada_state_muerte,"muerte(\"null\")") // 
+    writeFile(entrada_state_game,"estadojuego(\"null\")")
   }
 }
 
@@ -170,8 +164,8 @@ function reviewDeadPiece(socket,data_json,data){
     console.log(is_dead.split(",")[2])
     readFile(socket,data_json,entrada_state_game,"is_winner");
   }else{
-    writeFile(entrada_state_muerte,"muerte('null')") // 
-    writeFile(entrada_state_game,"estadojuego('null')")
+    writeFile(entrada_state_muerte,"muerte(\"null\")") // 
+    writeFile(entrada_state_game,"estadojuego(\"null\")")
   }
 }
 
@@ -181,8 +175,8 @@ function reviewStatusGame(socket,data_json,data) {
     console.log(is_winner);
     socketEndGame(socket, is_winner);
   }
-  writeFile(entrada_state_muerte,"muerte('null')") // 
-  writeFile(entrada_state_game,"estadojuego('null')")
+  writeFile(entrada_state_muerte,"muerte(\"null\")") // 
+  writeFile(entrada_state_game,"estadojuego(\"null\")")
 }
 
 // Function manage files 
