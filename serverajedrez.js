@@ -4,7 +4,7 @@ var app = express();
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
 var port = process.env.PORT || 3000;
-var player_prolog_program = "player.EXE";
+var player_prolog_program = "vendorprolog/player.EXE";
 var machine_prolog_program = "machine.EXE";
 var salida_with_data = "entrada.txt"
 var entrada_validate = "salida.txt";
@@ -30,15 +30,18 @@ io.on('connection', function (socket) {
 
   socket.on('play game', function(data){
     console.log(data);
-    // writeFile(salida_with_data,formatEntrada(data));
-    // if (data.player == "player"){
-    //   executePlayerProgram();
-    // }else{
-    //   executeMachineProgram();
-    // }
-    // setTimeout( function (){
-    //   reviewMotion(socket,data)
-    // },300);
+    writeFile(salida_with_data,formatEntrada(data));
+    if (data.player == "player"){
+      console.log("executePlayerProgram");
+       executePlayerProgram();
+    }else{
+      console.log("executePlayerProgram");
+       executeMachineProgram();
+    }
+    setTimeout( function (){
+      //reviewMotion(socket,data)
+      readFile(socket,data,entrada_validate,"is_validate");
+    },300);
   });
 
 
@@ -123,34 +126,44 @@ function socketEndGame(socket,winner){
   });
 }
 
-function reviewMotion(socket,data){
-  var is_validate = getDataByPredicate(readFile(entrada_validate));
-  if (is_validate == true){
-    socketSuccessMotion(socket, data)
-    reviewDeadPiece();
+function reviewMotion(socket,data_json,data){
+  var is_validate = getDataByPredicate(data);
+  console.log("holi");
+  console.log(is_validate);
+  console.log(is_validate == "\"true\"");
+  if (is_validate == "\"true\""){
+    socketSuccessMotion(socket, data_json);
+    readFile(socket,data_json,entrada_state_muerte,"is_dead");
   }else{
     socketBadMotion(socket);
+    writeFile(entrada_state_muerte,"muerte('null')") // 
+    writeFile(entrada_state_game,"estadojuego('null')")
   }
 }
 
-function reviewDeadPiece(socket){
-  var is_dead = getDataByPredicate(readFile(entrada_state_muerte));
+function reviewDeadPiece(socket,data_json,data){
+  var is_dead = getDataByPredicate(data);
   if (is_dead != "null"){
-    socketDeadPiece(socket,piece); //TO-DO implement emit there some deads
+    socketDeadPiece(socket,is_dead.split(",")[2]); //TO-DO implement emit there some deads
     // TO - DO changed return data of prolog
     console.log(is_dead.split(",")[0])
     console.log(is_dead.split(",")[1])
     console.log(is_dead.split(",")[2])
-    reviewStatusGame();
+    readFile(socket,data_json,entrada_state_game,"is_winner");
+  }else{
+    writeFile(entrada_state_muerte,"muerte('null')") // 
+    writeFile(entrada_state_game,"estadojuego('null')")
   }
 }
 
-function reviewStatusGame() {
-  var is_winner =  getDataByPredicate(readFile(entrada_state_game));
+function reviewStatusGame(socket,data_json,data) {
+  var is_winner =  getDataByPredicate(data);
   if (is_winner != "null"){
     console.log(is_winner);
     socketEndGame(socket, is_winner);
   }
+  writeFile(entrada_state_muerte,"muerte('null')") // 
+  writeFile(entrada_state_game,"estadojuego('null')")
 }
 
 // Function manage files 
@@ -165,25 +178,31 @@ function writeFile(file,msg){
   }); 
 }
 
-function readFile(file){
+function readFile(socket,data_json,file,type_review){
   var text=null;
   var fs = require('fs');
   var path = require('path');
   var filePath = path.join(__dirname, file);
-
   fs.readFile(filePath, {encoding: 'utf-8'}, function (err,data) {
-    console.log(data);
       if (err) {
-        return console.log(err);
       }else{
-        console.log(data);
-        text = data
+        switch (type_review){
+          case 'is_validate':
+            reviewMotion(socket,data_json,data);
+            break;
+          case 'is_dead':
+            reviewDeadPiece(socket,data_json,data)
+            break;
+          case 'is_winner':
+            reviewStatusGame(socket,data_json,data)
+            break;
+        }
       }
   });
-  return data
 }
 
 function getDataByPredicate(data){
+  console.log(data);
   return data.split("(")[1].split(")")[0];
 }
 
@@ -194,7 +213,7 @@ function executePlayerProgram(){
      exec(player_prolog_program, function(err, data) {
           console.log(data.toString());                       
       });
-      exec('killPlayer.bat', function(err, data) {
+      exec('vendorprolog/killPlayer.bat', function(err, data) {
           console.log("close");                       
       });  
   }
@@ -217,5 +236,5 @@ function executeMachineProgram(){
 
 
 function formatEntrada(data){
-    return "entrada("+data.type1+","+data.x1+","+data.y1+","+data.type2+","+data.x2+","+data.y2+","+data.type3+","+data.x3+","+data.y3+","+data.turnB+","+data.turnA+","+data.isOn1+","+data.isOn2+","+data.isOn3+","+data.type4+","+data.x4+","+data.y4+","+data.xf4+","+data.yf4+")";
+    return "entrada(\""+data.type1+"\","+data.x1+","+data.y1+",\""+data.type2+"\","+data.x2+","+data.y2+",\""+data.type3+"\","+data.x3+","+data.y3+",\""+data.turnB+"\",\""+data.turnA+"\",\""+data.isOn1+"\",\""+data.isOn2+"\",\""+data.isOn3+"\",\""+data.type4+"\","+data.x4+","+data.y4+","+data.xf4+","+data.yf4+")";
 }

@@ -77,6 +77,7 @@ function getObjectToSend(cuadrado_id){
                      "isOn1" : caballo_status, "isOn2" : alfil_status, "isOn3" : torre_status }; //TODO Implement status
         break;
     }
+    data.player = "player";
     return data;
 }
 

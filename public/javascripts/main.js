@@ -259,4 +259,22 @@ $(function() {
   socket.on('stop typing', function (data) {
     removeChatTyping(data);
   });
+  
+  socket.on('move piece', function (data) {
+    console.log("move piece");
+  });
+
+  socket.on('bad motion', function (data) {
+    console.log("bad motion");
+  });
+
+  socket.on('dead piece', function (data) {
+    console.log("dead piece");
+  });
+
+  socket.on('end game', function (data) {
+    console.log("end game");
+  });
+
+
 });
