@@ -163,7 +163,7 @@ function reviewMotion(socket,data_json,data){
 function reviewDeadPiece(socket,data_json,data){
   var is_dead = getDataByPredicate(data);
   console.log("is_dead = "+is_dead);
-  if (is_dead != 'null'){
+  if (is_dead != "null"){
     console.log("hubo un muerto ");
     socketDeadPiece(socket,is_dead.split(",")[2]); //TO-DO implement emit there some deads
     // TO - DO changed return data of prolog
@@ -179,7 +179,7 @@ function reviewDeadPiece(socket,data_json,data){
 function reviewStatusGame(socket,data_json,data) {
   var is_winner =  getDataByPredicate(data);
   console.log("is_winner = "+is_winner);
-  if (is_winner != 'null'){
+  if (is_winner != "null"){
     console.log("hubo un ganador")
     socketEndGame(socket, is_winner);
   }
