@@ -116,6 +116,7 @@ io.on('connection', function (socket) {
 });
 
 function socketSuccessMotion(socket, data){
+  console.log("enviando data al cliente que su movimiento estubo BIEN");
   socket.emit('move piece',{
     type : data.type4,
     x: data.xf4,
@@ -124,16 +125,19 @@ function socketSuccessMotion(socket, data){
 }
 
 function socketBadMotion(socket) {
+  console.log("enviando data al cliente que su movimiento estubo MAL");
   socket.emit('bad motion')
 }
 
 function socketDeadPiece(socket,piece){
+  console.log("enviando data al cliente que su movimiento MATO A UNA PIEZA ES = "+piece);
   socket.emit('dead piece',{
     type : piece
   });
 }
 
 function socketEndGame(socket,winner){
+  console.log("enviando data al cliente que gano la partida ES = " + winner );
   socket.emit('end game',{
     winner : winner
   });
@@ -141,42 +145,47 @@ function socketEndGame(socket,winner){
 
 function reviewMotion(socket,data_json,data){
   var is_validate = getDataByPredicate(data);
-  console.log("holi");
-  console.log(is_validate);
-  console.log(is_validate == "\"true\"");
+  console.log("is_validate = "+is_validate);
   if (is_validate == "\"true\""){
+    console.log("jugada valida");
     socketSuccessMotion(socket, data_json);
+    console.log("leyendo archivo si hay muertes ")
     readFile(socket,data_json,entrada_state_muerte,"is_dead");
   }else{
+    console.log("jugada invalida");
     socketBadMotion(socket);
-    writeFile(entrada_state_muerte,"muerte(\"null\")") // 
-    writeFile(entrada_state_game,"estadojuego(\"null\")")
+    console.log("setear null a los archivos muerte y estado de juego")
+    writeFile(entrada_state_muerte,"muerte('null')") 
+    writeFile(entrada_state_game,"estadojuego('null')")
   }
 }
 
 function reviewDeadPiece(socket,data_json,data){
   var is_dead = getDataByPredicate(data);
-  if (is_dead != "null"){
+  console.log("is_dead = "+is_dead);
+  if (is_dead != 'null'){
+    console.log("hubo un muerto ");
     socketDeadPiece(socket,is_dead.split(",")[2]); //TO-DO implement emit there some deads
     // TO - DO changed return data of prolog
-    console.log(is_dead.split(",")[0])
-    console.log(is_dead.split(",")[1])
-    console.log(is_dead.split(",")[2])
+    console.log("leyendo archivo si hay ganador ")
     readFile(socket,data_json,entrada_state_game,"is_winner");
   }else{
-    writeFile(entrada_state_muerte,"muerte(\"null\")") // 
-    writeFile(entrada_state_game,"estadojuego(\"null\")")
+    console.log("setear null a los archivos muerte y estado de juego")
+    writeFile(entrada_state_muerte,"muerte('null')") 
+    writeFile(entrada_state_game,"estadojuego('null')")
   }
 }
 
 function reviewStatusGame(socket,data_json,data) {
   var is_winner =  getDataByPredicate(data);
-  if (is_winner != "null"){
-    console.log(is_winner);
+  console.log("is_winner = "+is_winner);
+  if (is_winner != 'null'){
+    console.log("hubo un ganador")
     socketEndGame(socket, is_winner);
   }
-  writeFile(entrada_state_muerte,"muerte(\"null\")") // 
-  writeFile(entrada_state_game,"estadojuego(\"null\")")
+  console.log("setear null a los archivos muerte y estado de juego")
+  writeFile(entrada_state_muerte,"muerte('null')") 
+  writeFile(entrada_state_game,"estadojuego('null')")
 }
 
 // Function manage files 
@@ -227,7 +236,7 @@ function executePlayerProgram(){
           console.log(data.toString());                       
       });
       exec('vendorprolog/killPlayer.bat', function(err, data) {
-          console.log("close");                       
+          console.log("cerrando executePlayerProgram");                       
       });  
   }
   fun();
@@ -241,7 +250,7 @@ function executeMachineProgram(){
           console.log(data.toString());                       
       });
       exec('killMachine.bat', function(err, data) {
-          console.log("close");                       
+          console.log("cerrando executeMachineProgram");                       
       });  
   }
   fun();
