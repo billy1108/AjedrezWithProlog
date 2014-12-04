@@ -136,7 +136,10 @@ function setFichasIntoTable(){
 
 function changePosition(element){
     console.log("changePosition"+element.id);
-  switch (mouse_name_active){
+    if ($("#"+realCoordenadas(element.id)).children().length != 0 ) {
+        $("#"+realCoordenadas(element.id)).children()[0].remove();
+    }
+    switch (mouse_name_active){
     case torre_name_class:
         position_torre = realCoordenadas(element.id);
         $("#"+realCoordenadas(element.id)).append(torre_div_str);
@@ -178,7 +181,9 @@ function desactiveSomeValues(){
 }
 
 function resetLastTurn(){ // when fail the turn
-    changePosition(current_position_element)
+    changePosition(current_position_element);
+    $('#container').removeClass();
+    desactiveSomeValues();
 }
 
 function moveElementToCoordinates(data){// when emit a message from server should move the piece
@@ -189,23 +194,21 @@ function moveElementToCoordinates(data){// when emit a message from server shoul
 }
 
 function deleteElementInTable(data){
-    var element_id = data.x + "-" + data.y
-    var element = $("#"+realCoordenadas(element_id))
-    switch (data){
-        case "reina":
-            cleanSubviewsOfElement($("#"+position_torre));
+    switch (data.type){
+        case "\"reina\"":
+            //cleanSubviewsOfElement($("#"+position_torre));
             reina_status = "muerto";
             break;
-        case "caballo":
-            cleanSubviewsOfElement($("#"+position_alfil));
+        case "\"caballo\"":
+            //cleanSubviewsOfElement($("#"+position_alfil));
             caballo_status = "muerto";
             break;
-        case "alfil":
-            cleanSubviewsOfElement($("#"+position_caballo));
+        case "\"alfil\"":
+            //cleanSubviewsOfElement($("#"+position_caballo));
             alfil_status = "muerto";
             break;
-        case "torre":
-            cleanSubviewsOfElement($("#"+position_reina));
+        case "\"torre\"":
+            //cleanSubviewsOfElement($("#"+position_reina));
             torre_status = "muerto";
             break;
     }

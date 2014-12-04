@@ -87,16 +87,20 @@ io.on('connection', function (socket) {
   });
 
   socket.on('move element to all', function(data){
-    console.log(data);
-     socket.broadcast.emit('move piece in table',data);
+    console.log("send info to all GOOD MOTION "+data.type+"   "+data.x);
+    io.sockets.emit('move piece in table',{
+      type: data.type,
+      x: data.x,
+      y: data.y
+     });
   });
 
   socket.on('dead element to all',function(data){
-     socket.broadcast.emit('dead element in table',data);
+     io.sockets.emit('dead element in table',data);
   });
 
   socket.on('end game to all',function(data){
-      socket.broadcast.emit('end game in table',data);
+      io.sockets.emit('end game in table',data);
   });
   
   // when the user disconnects.. perform this
@@ -163,10 +167,9 @@ function reviewMotion(socket,data_json,data){
 function reviewDeadPiece(socket,data_json,data){
   var is_dead = getDataByPredicate(data);
   console.log("is_dead = "+is_dead);
-  if (is_dead != "null"){
+  if (is_dead != "\'null\'"){
     console.log("hubo un muerto ");
-    socketDeadPiece(socket,is_dead.split(",")[2]); //TO-DO implement emit there some deads
-    // TO - DO changed return data of prolog
+    socketDeadPiece(socket,is_dead); 
     console.log("leyendo archivo si hay ganador ")
     readFile(socket,data_json,entrada_state_game,"is_winner");
   }else{
@@ -179,7 +182,7 @@ function reviewDeadPiece(socket,data_json,data){
 function reviewStatusGame(socket,data_json,data) {
   var is_winner =  getDataByPredicate(data);
   console.log("is_winner = "+is_winner);
-  if (is_winner != "null"){
+  if (is_winner != "\'null\'"){
     console.log("hubo un ganador")
     socketEndGame(socket, is_winner);
   }
@@ -235,7 +238,7 @@ function executePlayerProgram(){
      exec(player_prolog_program, function(err, data) {
           console.log(data.toString());                       
       });
-      exec('vendorprolog/killPlayer.bat', function(err, data) {
+      exec("killPlayer.bat", function(err, data) {
           console.log("cerrando executePlayerProgram");                       
       });  
   }

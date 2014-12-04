@@ -266,7 +266,8 @@ $(function() {
   });
 
   socket.on('bad motion', function (data) {
-    console.log("bad motion"));
+    console.log("bad motion");
+    resetLastTurn();
   });
 
   socket.on('dead piece', function (data) {
@@ -289,7 +290,7 @@ $(function() {
     deleteElementInTable(data);
   });
 
-  socket.on('end game to all', function (data) {
+  socket.on('end game in table', function (data) {
     console.log("end game to all");
     endGame();
   });
