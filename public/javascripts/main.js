@@ -42,7 +42,7 @@ $(function() {
       //$currentInput = $inputMessage.focus();
 
       // Tell the server your username
-      socket.emit('add user', username);
+      socket.emit('add user', { username: username, password: password});
     }
   }
 
@@ -176,8 +176,6 @@ $(function() {
     });
   }
 
-
-
   // Keyboard events
 
   $window.keydown(function (event) {
@@ -220,6 +218,10 @@ $(function() {
   });
 
   // Socket events
+
+  socket.on('you can play',function(data){
+    youCanPlay();
+  });
 
   // Whenever the server emits 'login', log the login message
   socket.on('login', function (data) {

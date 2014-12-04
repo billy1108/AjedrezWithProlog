@@ -19,24 +19,27 @@ var alfil_status = "vivo";
 var reina_status = "vivo";
 var caballo_status = "vivo";
 
+var you_can_play = "false";
+
+function youCanPlay(){
+    you_can_play = "true";
+}
+
 function initTable(){
     fillTable();
     setFichasIntoTable();
     $('.cuadrado').click(function(){
-        if (mouse_status === "true"){
-            if (isNoColitionWithFriend(this.id)){
-                
-                var data = getObjectToSend(this.id)
-                socket.emit('play game', data);
-                // consult prolog this postion and validate
-                // changePosition(this);
-                $(mouse_name_active).hide();
-                // $('#container').removeClass();
-                // desactiveSomeValues();
+        if (you_can_play === "true"){
+            if (mouse_status === "true"){
+                if (isNoColitionWithFriend(this.id)){
+                    var data = getObjectToSend(this.id)
+                    socket.emit('play game', data);
+                    $(mouse_name_active).hide();
+                }
+            }else{
+                cleanSubviewsOfElement(this);
+                whichMouse(this);
             }
-        }else{
-            cleanSubviewsOfElement(this);
-            whichMouse(this);
         }
     });
 }
