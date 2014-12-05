@@ -219,8 +219,8 @@ function socketSuccessMotion(socket, data){
 
 function socketBadMotion(socket, data_json) {
   console.log("enviando data al cliente que su movimiento estubo MAL");
-  var data = { type: data_json.type4 , x: data_json.xf4 , y: data_json.yf4 };
-  socket.emit('bad motion', { data : data });
+  var data = { type: data_json.type4 , x: data_json.x4 , y: data_json.y4 };
+  socket.emit('bad motion', data);
 }
 
 function socketDeadPiece(socket,piece){

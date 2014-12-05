@@ -181,6 +181,7 @@ function resetLastTurn(data){ // when fail the turn
     changePosition(data);
     $('#container').removeClass();
     desactiveSomeValues();
+    youCanPlay();
 }
 
 function moveElementToCoordinates(data){// when emit a message from server should move the piece
@@ -230,5 +231,5 @@ function clearElementsIfDead(data){
 }
 
 function havePermitionAboutPiece(){
-    
+
 }
