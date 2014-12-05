@@ -76,6 +76,7 @@ function getObjectToSend(cuadrado_id){
                      "isOn1" : torre_status, "isOn2" : reina_status, "isOn3" : caballo_status }; //TODO Implement status
         break;
     case caballo_name_class:
+        console.log("caballo 0000000"+ position_caballo)
         data = { "type4" : "caballo", "x4" : getPositionX(position_caballo), "y4" : getPositionY(position_caballo), "xf4" : getPositionX(cuadrado_id), "yf4" : getPositionY(cuadrado_id),
                      "type1" : "reina" , "x1" : getPositionX(position_reina),  "y1" : getPositionY(position_reina),
                      "type2" : "alfil", "x2" : getPositionX(position_alfil), "y2" : getPositionY(position_alfil),
@@ -97,11 +98,19 @@ function getObjectToSend(cuadrado_id){
 }
 
 function getPositionX(convert){
-    return parseInt(convert.split("-")[0])
+    if (convert == null) {
+        return 0
+    }else{
+        return parseInt(convert.split("-")[0])
+    }    
 }
 
 function getPositionY(convert){
-    return parseInt(convert.split("-")[1])
+     if (convert == null) {
+        return 0
+    }else{
+        return parseInt(convert.split("-")[1])
+    }   
 }
 
 function whichMouse(cuadrado){
@@ -241,12 +250,6 @@ function clearElementsIfDead(data){
 }
 
 function havePermitionAboutPiece(current_postion){
-    console.log("havePermitionAboutPiece"+current_postion);
-    console.log("position_torre"+position_torre);
-    console.log(current_postion==position_torre);
-    console.log(canMoveTorre);
-    console.log("holi"+canMoveTorre);
-
     switch (current_postion){
         case position_torre: return canMoveTorre;
         case position_alfil: return canMoveAlfil;
