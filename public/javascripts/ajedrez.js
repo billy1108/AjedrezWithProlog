@@ -158,10 +158,10 @@ function changePosition(data){
 
 function isNoColitionWithFriend(current_postion){
     switch (mouse_name_active){
-        case torre_name_class: return realCoordenadas(current_postion) != position_alfil;
-        case alfil_name_class: return realCoordenadas(current_postion) != position_torre;
-        case caballo_name_class: return realCoordenadas(current_postion) != position_reina;
-        case reina_name_class: return realCoordenadas(current_postion) != position_caballo;
+        case torre_name_class: return realCoordenadas(current_postion) != position_alfil && realCoordenadas(current_postion) != position_torre;
+        case alfil_name_class: return realCoordenadas(current_postion) != position_torre && realCoordenadas(current_postion) != position_alfil;
+        case caballo_name_class: return realCoordenadas(current_postion) != position_reina && realCoordenadas(current_postion) != position_caballo;
+        case reina_name_class: return realCoordenadas(current_postion) != position_caballo && realCoordenadas(current_postion) != position_reina;
     }
 }
 
