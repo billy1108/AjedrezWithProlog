@@ -25,6 +25,10 @@ function youCanPlay(){
     you_can_play = "true";
 }
 
+function youDontCanPlay(){
+    you_can_play = "false";
+}
+
 function initTable(){
     fillTable();
     setFichasIntoTable();
@@ -104,25 +108,7 @@ function whichMouse(cuadrado){
 }
 
 function changeMouseOver(name_class){
-    $('#container').css('cursor','crosshair');
-/*    var handler = null;
-    $('#container').addClass("hidden_mouse");
-    $('#container').mouseenter(function(e){
-        $('#container').off('mouseenter', handler);
-        if (mouseenter == "false"){
-            return false;
-        }else{
-            $(name_class).show();
-        }   
-    });
-    $('#container').mousemove(function(e){
-        if (mousemove == "false"){
-            $('#container').off('mousemove', handler);
-            return false;
-        }else{
-            $(name_class).css('left', e.clientX -20).css('top', e.clientY + 10 );
-        }   
-    });*/
+    $('#container').css('cursor','pointer');
     mouse_name_active = name_class;
     activeSomeValues();
 }
