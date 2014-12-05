@@ -23,7 +23,24 @@ app.use(express.static(__dirname + '/public'));
 
 // usernames which are currently connected to the chat
 var usernames = {};
+var admins = { player1: "null", player2: "null", status: "vacio"};
 var numUsers = 0;
+var password = "prolog"
+
+function setAdmins(data){
+  if (admins.player1 == "null"){
+    admins.player1 = data.username;
+  }else if(admins.player2 == "null"){
+    admins.player2 = data.username;
+    admins.status = "lleno";
+  }
+}
+
+function setDefaultValuesToAdmins(){
+  admins.player1 = "null";
+  admins.player2 = "null";
+  admins.status = "vacio";
+}
 
 io.on('connection', function (socket) {
   var addedUser = false;
@@ -55,11 +72,19 @@ io.on('connection', function (socket) {
   });
 
   // when the client emits 'add user', this listens and executes
-  socket.on('add user', function (username) {
+  socket.on('add user', function (data) {
     // we store the username in the socket session for this client
-    socket.username = username;
+    socket.username = data.username;
     // add the client's username to the global list
-    usernames[username] = username;
+    usernames[username] = data.username;
+    if (admins.status == "vacio" && data.password = password){
+      setAdmins(data)
+      socket.emit('you can play');
+    }
+    socket.emit('players',function(){
+      player1 = admins.player1,
+      player2 = admins.player2
+    });
     ++numUsers;
     addedUser = true;
     socket.emit('login', {
