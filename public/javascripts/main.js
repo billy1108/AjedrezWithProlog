@@ -304,7 +304,7 @@ $(function() {
 
   socket.on('end game in table', function (data) {
     console.log("end game to all");
-    endGame();
+    endGame(data);
   });
 
 });
@@ -320,7 +320,9 @@ function setTurnOnContainer(data){
   }
 }
 
-function endGame(){
+function endGame(data){
   alert("END GAME");
+  $(".Modaltext").html(data.name + " es el ganador");
+  $("#bannerformmodal1").modal('show');
   console.log("end game");
 }

@@ -1,1 +1,1 @@
-salida("false")
+salida("true")

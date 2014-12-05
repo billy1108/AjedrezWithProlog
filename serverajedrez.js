@@ -172,7 +172,8 @@ io.on('connection', function (socket) {
   });
 
   socket.on('end game to all',function(data){
-      io.sockets.emit('end game in table',data);
+      var name_winner = admins.playing == "player2" ? admins.player1 : admins.player2;
+      io.sockets.emit('end game in table',{ name: name_winner});
   });
   
   // when the user disconnects.. perform this
