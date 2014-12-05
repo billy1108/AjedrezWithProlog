@@ -1,6 +1,6 @@
 .cuadrado{
-	width: 100px;
-	height: 100px;
+	width: 75px;
+	height: 75px;
 	color: red;
 }
 
@@ -17,11 +17,11 @@
 }
 
 #container {
-	margin-left: auto;
-    margin-right: auto;
-    width: 70%;
-    margin-top: 25%;
-    /*cursor: url("images/blank.cur"), none;*/
+	position: relative;
+	top: 20px;
+	left: 255px;
+	float: left;
+	border: solid 1px;
 }
 
 .hidden_mouse {
@@ -58,8 +58,11 @@
 }
 
 .img-ficha {
-	width: 30px;
-	height: 30px;
+	width: 50px;
+	height: 50px;
+	position: relative;
+	top: 12px;
+	right: 5px;
 }
 
 .torre_cursor{

@@ -34,7 +34,8 @@ function initTable(){
                 if (isNoColitionWithFriend(this.id)){
                     var data = getObjectToSend(this.id)
                     socket.emit('play game', data);
-                    $(mouse_name_active).hide();
+                    $('#container').css('cursor','default');
+                    //$(mouse_name_active).hide();
                 }
             }else{
                 cleanSubviewsOfElement(this);
@@ -103,7 +104,8 @@ function whichMouse(cuadrado){
 }
 
 function changeMouseOver(name_class){
-    var handler = null;
+    $('#container').css('cursor','crosshair');
+/*    var handler = null;
     $('#container').addClass("hidden_mouse");
     $('#container').mouseenter(function(e){
         $('#container').off('mouseenter', handler);
@@ -120,7 +122,7 @@ function changeMouseOver(name_class){
         }else{
             $(name_class).css('left', e.clientX -20).css('top', e.clientY + 10 );
         }   
-    });
+    });*/
     mouse_name_active = name_class;
     activeSomeValues();
 }
@@ -137,27 +139,32 @@ function setFichasIntoTable(){
     $("#6-8").append(reina_div_str);
 }
 
-function changePosition(element){
-    console.log("changePosition"+element.id);
-    if ($("#"+realCoordenadas(element.id)).children().length != 0 ) {
-        $("#"+realCoordenadas(element.id)).children()[0].remove();
+function changePosition(data){
+    var this_element = realCoordenadas(data.x+"-"+data.y); 
+    console.log("changePosition this_element ==>> "+this_element);
+    if ($("#"+this_element).children().length != 0 ) {
+        $("#"+this_element).children()[0].remove();
     }
-    switch (mouse_name_active){
-    case torre_name_class:
-        position_torre = realCoordenadas(element.id);
-        $("#"+realCoordenadas(element.id)).append(torre_div_str);
+    switch (data.type){
+    case "torre":
+        cleanSubviewsOfElement({ id: position_torre });
+        position_torre = this_element;
+        $("#"+this_element).append(torre_div_str);
         break;
-    case alfil_name_class:
-        position_alfil = realCoordenadas(element.id);
-        $("#"+realCoordenadas(element.id)).append(alfil_div_str);
+    case "alfil":
+        cleanSubviewsOfElement({ id: position_alfil });
+        position_alfil = this_element;
+        $("#"+this_element).append(alfil_div_str);
         break;
-    case caballo_name_class:
-        position_caballo = realCoordenadas(element.id);
-        $("#"+realCoordenadas(element.id)).append(caballo_div_str);
+    case "caballo":
+        cleanSubviewsOfElement({ id: position_caballo });
+        position_caballo = this_element;
+        $("#"+this_element).append(caballo_div_str);
         break;
-    case reina_name_class:
-        position_reina = realCoordenadas(element.id);
-        $("#"+realCoordenadas(element.id)).append(reina_div_str);
+    case "reina":
+        cleanSubviewsOfElement({ id: position_reina });
+        position_reina = this_element;
+        $("#"+this_element).append(reina_div_str);
         break;
   }
 }
@@ -183,15 +190,14 @@ function desactiveSomeValues(){
     mouse_status = "false";
 }
 
-function resetLastTurn(){ // when fail the turn
-    changePosition(current_position_element);
+function resetLastTurn(data){ // when fail the turn
+    changePosition(data);
     $('#container').removeClass();
     desactiveSomeValues();
 }
 
 function moveElementToCoordinates(data){// when emit a message from server should move the piece
-    var element = { id: data.x + "-" + data.y }
-    changePosition(element)
+    changePosition(data)
     $('#container').removeClass();
     desactiveSomeValues();
 }
@@ -199,20 +205,39 @@ function moveElementToCoordinates(data){// when emit a message from server shoul
 function deleteElementInTable(data){
     switch (data.type){
         case "\"reina\"":
-            //cleanSubviewsOfElement($("#"+position_torre));
             reina_status = "muerto";
             break;
         case "\"caballo\"":
-            //cleanSubviewsOfElement($("#"+position_alfil));
             caballo_status = "muerto";
             break;
         case "\"alfil\"":
-            //cleanSubviewsOfElement($("#"+position_caballo));
             alfil_status = "muerto";
             break;
         case "\"torre\"":
-            //cleanSubviewsOfElement($("#"+position_reina));
             torre_status = "muerto";
             break;
+    }
+}
+
+function updateEstadoFicha(data){
+    torre_status =  data.estado_torre;
+    alfil_status = data.estado_alfil;
+    reina_status = data.estado_reina;
+    caballo_status = data.estado_caballo;
+    clearElementsIfDead(data);
+}
+
+function clearElementsIfDead(data){
+    if (data.estado_reina == "muerto"){
+        cleanSubviewsOfElement($("#"+position_reina));
+    }
+    if (data.estado_alfil == "muerto") {
+        cleanSubviewsOfElement($("#"+position_alfil));
+    }
+    if (data.estado_caballo == "muerto") {
+        cleanSubviewsOfElement($("#"+position_caballo));
+    }
+    if (data.estado_torre == "muerto") {
+        cleanSubviewsOfElement($("#"+position_torre));
     }
 }

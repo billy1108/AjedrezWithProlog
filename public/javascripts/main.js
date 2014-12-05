@@ -14,6 +14,7 @@ $(function() {
 
   // Prompt for setting a username
   var username;
+  var password;
   var connected = false;
   var typing = false;
   var lastTypingTime;
@@ -33,7 +34,7 @@ $(function() {
   // Sets the client's username
   function setUsername () {
     username = cleanInput($usernameInput.val().trim());
-
+    password = cleanInput($userpasswordInput.val().trim());
     // If the username is valid
     if (username) {
       $loginPage.fadeOut();
@@ -42,6 +43,7 @@ $(function() {
       //$currentInput = $inputMessage.focus();
 
       // Tell the server your username
+      console.log("enviando data de nuevo usuario");
       socket.emit('add user', { username: username, password: password});
     }
   }
@@ -223,6 +225,11 @@ $(function() {
     youCanPlay();
   });
 
+  socket.on('estado fichas',function(data){
+    console.log("resive el estado de las fichas");
+    updateEstadoFicha(data);
+  });
+
   // Whenever the server emits 'login', log the login message
   socket.on('login', function (data) {
     connected = true;
@@ -269,7 +276,7 @@ $(function() {
 
   socket.on('bad motion', function (data) {
     console.log("bad motion");
-    resetLastTurn();
+    resetLastTurn(data);
   });
 
   socket.on('dead piece', function (data) {
