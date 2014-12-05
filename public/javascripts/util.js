@@ -40,3 +40,7 @@ function getUsernameColor (username) {
 	var index = Math.abs(hash % COLORS.length);
 	return COLORS[index];
 }
+
+function modalwin(){
+	console.log("sera ps");
+}
