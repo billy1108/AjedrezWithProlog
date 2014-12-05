@@ -33,15 +33,17 @@ app.use(express.static(__dirname + '/public'));
 
 // usernames which are currently connected to the chat
 var usernames = {};
-var admins = { player1: "null", player2: "null", status: "vacio"};
+var admins = { player1: "null", p1_sock: null, player2: "null", p2_sock: null, status: "vacio", playing : "player2"};
 var numUsers = 0;
 var password = "prolog"
 
-function setAdmins(data){
+function setAdmins(socket,data){
   if (admins.player1 == "null"){
     admins.player1 = data.username;
+    admins.p1_sock = socket;
   }else if(admins.player2 == "null"){
     admins.player2 = data.username;
+    admins.p2_sock = socket;
     admins.status = "lleno";
   }
   console.log("nuevo admin ==>> "+ admins)
@@ -91,9 +93,19 @@ io.on('connection', function (socket) {
 
     usernames[data.username] = data.username;
     if ( admins.status == "vacio" && data.password == password ){
-      setAdmins(data)
-      socket.emit('you can play');
+      setAdmins(socket,data);
+      if (admins.status == "lleno"){
+        socket.emit('you can play');
+      }
     }
+    var usname = admins.playing === "player2" ? admins.player2 : admins.player1;
+    if (admins.status == "lleno"){
+        io.sockets.emit('set player',{
+          username : usname,
+          type_player : data.type_player
+        });
+      }
+
     socket.emit('players',{
       player1 : admins.player1,
       player2 : admins.player2
@@ -138,6 +150,7 @@ io.on('connection', function (socket) {
       x: data.x,
       y: data.y
      });
+    turnPlayer();
   });
 
   socket.on('dead element to all',function(data){
@@ -177,6 +190,23 @@ io.on('connection', function (socket) {
     }
   });
 });
+
+function turnPlayer(){
+  var data;
+  if (admins.playing == "player2"){
+    admins.p1_sock.emit('you can play');
+    data = { username : admins.player1 , type_player: "player1" };
+    admins.playing = "player1";
+  }else{
+    admins.p2_sock.emit('you can play');
+    data = { username : admins.player2 , type_player: "player2" };
+    admins.playing = "player2";
+  }
+  io.sockets.emit('set player',{
+    username : data.username,
+    type_player : data.type_player
+   });
+}
 
 function socketSuccessMotion(socket, data){
   console.log("enviando data al cliente que su movimiento estubo BIEN");

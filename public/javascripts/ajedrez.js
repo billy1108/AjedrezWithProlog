@@ -40,6 +40,7 @@ function initTable(){
                     socket.emit('play game', data);
                     $('#container').css('cursor','default');
                     //$(mouse_name_active).hide();
+                    youDontCanPlay();
                 }
             }else{
                 cleanSubviewsOfElement(this);
