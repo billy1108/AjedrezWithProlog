@@ -1,3 +1,3 @@
 @echo off
-TASKKILL /IM player.exe /F
+TASKKILL /IM player.EXE /F
 exit
