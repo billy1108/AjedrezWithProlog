@@ -312,11 +312,11 @@ $(function() {
 function setTurnOnContainer(data){
   //TO -DO IMPLEMENT DIV AND SET TURN 
   console.log("setTurnOnContainer"+data.username);
+  $("#jugador").html(data.username);
   if (data.type_player == "player1"){
-    //data.username
-    //element set color  azul
+    $("#jugador").css('color', "#123456");
   }else{
-    //element set color rojo
+    $("#jugador").css('color', "#ea4040");
   }
 }
 

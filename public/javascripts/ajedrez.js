@@ -228,3 +228,7 @@ function clearElementsIfDead(data){
         cleanSubviewsOfElement($("#"+position_torre));
     }
 }
+
+function havePermitionAboutPiece(){
+    
+}
