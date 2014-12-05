@@ -215,3 +215,40 @@ bottom: 81px;
 #pass{
 color: blue;
 }
+
+.playeractive{
+  float: left;
+  width: 157px;
+  padding-top: 50px;
+  padding-left: 38px;
+}
+
+.titleturno{
+top: 20px;
+left: 83px;
+float: left;
+width: 187px;
+font-size: 21px;
+font-weight: bold;
+}
+
+#jugador{
+  float: left;
+  padding-top: 15px;
+}
+
+@media only screen and (min-width: 200px) and (max-width: 1125px) {
+
+html, body {
+  height: auto;
+  margin: 0;
+  padding: 0;
+}
+
+.chatpart {
+float: none;
+width: 20%;
+/* height: 100%; */
+}
+
+}

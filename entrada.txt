@@ -1,5 +1,1 @@
-<<<<<<< HEAD
-entrada("alfil",5,1,"reina",6,8,"caballo",2,8,"B","A","vivo","vivo","vivo","torre",8,1,8,3)
-=======
-entrada("alfil",5,1,"reina",6,8,"caballo",2,8,"B","A","vivo","vivo","vivo","torre",8,1,8,8)
->>>>>>> e2407c83accb06d7b9943c4e089a72f47a5e8ccd
+entrada("torre",8,3,"reina",6,8,"caballo",2,8,"B","A","vivo","vivo","vivo","alfil",5,1,3,3)
