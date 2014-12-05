@@ -30,7 +30,6 @@ $(function() {
     socket.emit('play game', a);
   }
 
-
   // Sets the client's username
   function setUsername () {
     username = cleanInput($usernameInput.val().trim());
@@ -225,6 +224,10 @@ $(function() {
     youCanPlay();
   });
 
+  socket.on('set player',function(data){
+    setTurnOnContainer(data);
+  });
+
   socket.on('estado fichas',function(data){
     console.log("resive el estado de las fichas");
     updateEstadoFicha(data);
@@ -305,6 +308,17 @@ $(function() {
   });
 
 });
+
+function setTurnOnContainer(data){
+  //TO -DO IMPLEMENT DIV AND SET TURN 
+  console.log("setTurnOnContainer"+data.username);
+  if (data.type_player == "player1"){
+    //data.username
+    //element set color  azul
+  }else{
+    //element set color rojo
+  }
+}
 
 function endGame(){
   alert("END GAME");
