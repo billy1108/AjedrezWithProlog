@@ -53,6 +53,7 @@ ul {
 
 .login.page {
   background-color: #000;
+  height: 105%;
 }
 
 .login.page .form {
@@ -85,6 +86,8 @@ ul {
   width: 400px;
   color: #fff;
   font-size: 200%;
+  position: relative;
+  bottom: 34px;
 }
 
 .login.page .title {
@@ -107,11 +110,18 @@ ul {
   display: none;
 }
 
+.username{
+  font-size: 14px;
+  color: green;
+}
+
+.messageBody{
+  font-size: 13px;
+  color: blue;
+}
+
 /* Font */
 
-.messages {
-  font-size: 150%;
-}
 
 .inputMessage {
   font-size: 100%;
@@ -122,6 +132,7 @@ ul {
   font-size: 70%;
   margin: 5px;
   text-align: center;
+  font-weight: bold;
 }
 
 /* Messages */
@@ -132,10 +143,13 @@ ul {
 }
 
 .messages {
+  font-size: 150%;
   height: 100%;
   margin: 0;
   overflow-y: scroll;
   padding: 10px 20px 10px 20px;
+  border: solid;
+  border-radius: 6px;
 }
 
 .message.typing .messageBody {
@@ -176,4 +190,28 @@ ul {
   height: 100%;
 }
 
+.titulo{
+  color: white;
+}
 
+.trabajo{
+  font-size: 50px;
+color: white;
+position: relative;
+bottom: 148px;
+}
+
+.descrip{
+  font-size: 27px;
+color: white;
+position: relative;
+bottom: 81px;
+}
+
+#nick{
+  color: blue;
+}
+
+#pass{
+color: blue;
+}

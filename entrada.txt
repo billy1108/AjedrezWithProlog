@@ -1,1 +1,1 @@
-entrada("alfil",5,1,"reina",6,8,"caballo",2,8,"B","A","vivo","vivo","vivo","torre",8,8,8,8)
+entrada("caballo",2,8,"alfil",5,1,"torre",8,5,"B","A","vivo","vivo","vivo","reina",7,6,4,6)
