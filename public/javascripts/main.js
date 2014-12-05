@@ -307,6 +307,11 @@ $(function() {
     endGame(data);
   });
 
+  socket.on('set tipe of player',function (data){
+    console.log('set tipe of player'+data.type_player);
+    valuesAboutPlayer(data.type_player);
+  });
+    
 });
 
 function setTurnOnContainer(data){

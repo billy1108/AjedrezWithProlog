@@ -20,6 +20,10 @@ var reina_status = "vivo";
 var caballo_status = "vivo";
 
 var you_can_play = "false";
+var canMoveTorre = false;
+var canMoveAlfil = false;
+var canMoveReina = false;
+var canMoveCaballo = false;
 
 function youCanPlay(){
     you_can_play = "true";
@@ -43,8 +47,10 @@ function initTable(){
                     youDontCanPlay();
                 }
             }else{
-                cleanSubviewsOfElement(this);
-                whichMouse(this);
+                if (havePermitionAboutPiece(this.id)) {
+                    cleanSubviewsOfElement(this);
+                    whichMouse(this);
+                }                
             }
         }
     });
@@ -194,15 +200,19 @@ function deleteElementInTable(data){
     switch (data.type){
         case "\"reina\"":
             reina_status = "muerto";
+            position_reina = null;
             break;
         case "\"caballo\"":
             caballo_status = "muerto";
+            position_caballo = null;
             break;
         case "\"alfil\"":
             alfil_status = "muerto";
+            position_alfil = null;
             break;
         case "\"torre\"":
             torre_status = "muerto";
+            position_torre = null;
             break;
     }
 }
@@ -230,6 +240,27 @@ function clearElementsIfDead(data){
     }
 }
 
-function havePermitionAboutPiece(){
+function havePermitionAboutPiece(current_postion){
+    console.log("havePermitionAboutPiece"+current_postion);
+    console.log("position_torre"+position_torre);
+    console.log(current_postion==position_torre);
+    console.log(canMoveTorre);
+    console.log("holi"+canMoveTorre);
 
+    switch (current_postion){
+        case position_torre: return canMoveTorre;
+        case position_alfil: return canMoveAlfil;
+        case position_caballo: return canMoveCaballo;
+        case position_reina: return canMoveReina;
+    }
+}
+
+function valuesAboutPlayer(type_of_player){
+     if (type_of_player === "player2"){
+        canMoveTorre = true;
+        canMoveAlfil = true;
+    }else{
+        canMoveReina = true;
+        canMoveCaballo = true;
+    }
 }

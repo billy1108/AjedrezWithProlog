@@ -41,10 +41,16 @@ function setAdmins(socket,data){
   if (admins.player1 == "null"){
     admins.player1 = data.username;
     admins.p1_sock = socket;
+    socket.emit('set tipe of player',{
+      type_player : "player1",
+    });
   }else if(admins.player2 == "null"){
     admins.player2 = data.username;
     admins.p2_sock = socket;
     admins.status = "lleno";
+    socket.emit('set tipe of player',{
+      type_player : "player2",
+    });
   }
   console.log("nuevo admin ==>> "+ admins)
 }
